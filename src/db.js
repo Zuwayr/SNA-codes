@@ -1,5 +1,14 @@
-const mongoose = require('mongoose');
+const Sequelize = require("sequelize");
 
-mongoose.connect('mongodb://localhost/simple-mern');
+const sequelize = new Sequelize("postgres://postgres@localhost:5432/postgres");
 
-module.exports = mongoose;
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
+module.exports = sequelize;

@@ -1,49 +1,85 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import { TextField, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import "./App.css";
 
-import TasksList from './components/TaskList';
+import StudentList from "./components/StudentList";
 
 class App extends Component {
   state = {
-    newTaskTitle: ''
+    new_first_name: "",
+    new_last_name: "",
+    new_id: "",
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  clickAddTask = event => {
+  clickAddStudent = (event) => {
     event.preventDefault();
 
-    const title = this.state.newTaskTitle;
+    const first_name = this.state.new_first_name;
+    const last_name = this.state.new_last_name;
+    const id = this.state.new_id;
 
-    fetch('/api/tasks/add', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title })
+    fetch("/api/students/add", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ first_name, last_name, id }),
     }).then(() => {
-      this.setState({ newTaskTitle: '' });
-      this.refs.tasksList.getTasks();
+      this.setState({ newStudentTitle: "" });
+      this.refs.studentList.getStudents();
     });
   };
 
   render() {
     return (
       <div className="App">
-        <h1>My Tasks</h1>
+        <Typography component="h1" variant="h4">
+          Students
+        </Typography>
 
-        <TasksList ref="tasksList" />
+        <StudentList ref="studentList" />
 
-        <form onSubmit={this.clickAddTask}>
-          <input
-            type="text"
-            size="30"
-            placeholder="New Task"
-            name="newTaskTitle"
-            value={this.state.newTaskTitle}
+        <form onSubmit={this.clickAddStudent}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="new_first_name"
+            label="First Name"
+            name="new_first_name"
+            autoComplete="first_name"
+            autoFocus
             onChange={this.handleChange}
           />
-          <input className="btn-primary" type="submit" value="Add" />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="new_last_name"
+            label="Last Name"
+            name="new_last_name"
+            autoComplete="last_name"
+            onChange={this.handleChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="new_id"
+            label="ID"
+            name="new_id"
+            autoComplete="id"
+            onChange={this.handleChange}
+          />
+          <Button type="submit" fullWidth variant="contained" color="primary">
+            Add
+          </Button>
         </form>
       </div>
     );
