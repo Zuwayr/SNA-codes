@@ -31,7 +31,7 @@ The production app will be running at [localhost:5000](http://localhost:5000/).
 
 ## Extend `simple-mern`
 
-While this boilerplate was designed to be as minimal as possible, support for other tech could be added *in their own branches*.
+While this boilerplate was designed to be as minimal as possible, support for other tech could be added _in their own branches_.
 
 Some examples:
 
