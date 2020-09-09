@@ -1,8 +1,7 @@
 const express = require("express");
-
 const Student = require("../models/student");
-
 const router = express.Router();
+
 router.get("/", async (req, res) => {
   try {
     const users = await Student.findAll({});
@@ -13,8 +12,18 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/add", (req, res) => {
-  const { first_name, last_name, id } = req.body;
-  const newStudent = new Student({ first_name, last_name, id });
+  var whitelist = ["first_name", "last_name", "id"];
+  var data = {};
+
+  for (var property in req.body) {
+    if (
+      req.body.hasOwnProperty(property) &&
+      whitelist.indexOf(property) !== -1
+    ) {
+      data[property] = req.body[property];
+    }
+  }
+  const newStudent = new Student(data);
 
   newStudent
     .save()
